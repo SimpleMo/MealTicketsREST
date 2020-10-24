@@ -5,6 +5,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import java.util.Iterator;
@@ -13,6 +14,7 @@ import java.util.Iterator;
  * Генерирует все возможные билеты, реализует {@link Iterator}
  */
 @Service("ticketsGenerator")
+@Scope("prototype")
 @Primary
 public class TicketsGenerator implements Iterator<MealTicket>, ApplicationContextAware {
     private long current = 0;
