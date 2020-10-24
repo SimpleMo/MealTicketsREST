@@ -3,8 +3,6 @@ package org.hse.example.services;
 import org.hse.example.MealTicket;
 import org.springframework.stereotype.Service;
 
-import java.util.Iterator;
-
 /**
  * Сервис для работы с чётными счастливыми билетами
  */
