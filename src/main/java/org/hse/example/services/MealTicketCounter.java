@@ -1,6 +1,7 @@
 package org.hse.example.services;
 
 import org.hse.example.MealTicket;
+import org.hse.example.views.MealTicketType;
 import org.hse.example.views.TicketListView;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -17,7 +18,7 @@ import java.util.stream.StreamSupport;
  * Сервис, выполняющий подсчёт счастливых билетов, реализует паттерн Шаблонный метод
  */
 @Service("mealTicketCounterTicketListView")
-public class MealTicketCounter implements Supplier<TicketListView>, ApplicationContextAware {
+public class MealTicketCounter implements Supplier<TicketListView>, ApplicationContextAware, HasMealTicketType {
     private ApplicationContext applicationContext;
 
     /**
@@ -59,5 +60,21 @@ public class MealTicketCounter implements Supplier<TicketListView>, ApplicationC
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
+    }
+
+    /**
+     * @return тип счастливых билетов
+     */
+    @Override
+    public MealTicketType getMealTicketType() {
+        return MealTicketType.ALL;
+    }
+
+    /**
+     * @return поставщик, возвращающий представление счастливых билетов заданного типа
+     */
+    @Override
+    public Supplier<TicketListView> getSupplier() {
+        return this;
     }
 }

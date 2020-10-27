@@ -1,18 +1,17 @@
 package org.hse.example.controllers;
 
+import org.hse.example.services.HasMealTicketType;
 import org.hse.example.views.MealTicketType;
 import org.hse.example.views.TicketListView;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 /**
  * Контроллер для работы со счастливыми билетами
@@ -22,16 +21,11 @@ import java.util.function.Supplier;
 public class MealTicketController {
     private final Map<MealTicketType, Supplier<TicketListView>> suppliers;
 
-    public MealTicketController(@Qualifier("mealTicketCounterTicketListView")
-                                final Supplier<TicketListView> ticketsSupplier,
-                                @Qualifier("evenMealTicketCounterTicketListView")
-                                final Supplier<TicketListView> evenTicketsSupplier,
-                                @Qualifier("multipleOfFiveMealTicketCounter")
-                                final Supplier<TicketListView> multipleOfFiveTicketsSupplier) {
-        this.suppliers = new HashMap<>();
-        this.suppliers.put(MealTicketType.ALL, ticketsSupplier);
-        this.suppliers.put(MealTicketType.EVEN, evenTicketsSupplier);
-        this.suppliers.put(MealTicketType.FIVE, multipleOfFiveTicketsSupplier);
+    public MealTicketController(final List<HasMealTicketType> suppliers) {
+        this.suppliers =
+                suppliers
+                    .stream()
+                    .collect(Collectors.toMap(HasMealTicketType::getMealTicketType, HasMealTicketType::getSupplier));
     }
 
     /**

@@ -1,6 +1,7 @@
 package org.hse.example.services;
 
 import org.hse.example.MealTicket;
+import org.hse.example.views.MealTicketType;
 import org.springframework.stereotype.Service;
 
 /**
@@ -18,5 +19,10 @@ public class EvenMealTicketCounter extends MealTicketCounter {
     @Override
     protected boolean doFilter(MealTicket ticket) {
         return ticket.accept(hasOrdinal -> hasOrdinal.getOrdinal() % 2 == 0);
+    }
+
+    @Override
+    public MealTicketType getMealTicketType() {
+        return MealTicketType.EVEN;
     }
 }
